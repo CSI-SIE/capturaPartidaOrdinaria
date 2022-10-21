@@ -1,0 +1,25 @@
+<div fxLayout="column">
+ <div *ngIf="!sinResultados">
+    <tabla-dinamica-solicitadas
+    [resultadosPartidasOrdinarias]="resultadosPartidasOrdinarias"
+    [pageSizeOptions]="pageSizeOptions"
+    [displayedColumns]="displayedColumnsGrupo"
+    [tamanoTabla]="tamanoTabla" >
+    </tabla-dinamica-solicitadas>
+  </div>
+
+<div *ngIf="sinResultados" fxFlex fxLayout="column" fxLayoutAlign="center center">
+  <h2>Aún no ha solicitado esta partida.</h2>
+</div>
+
+<div fxLayout="row"
+fxLayout.xs="column"
+fxLayoutAlign="center center">
+<mat-spinner *ngIf="showSpinner"></mat-spinner>
+</div>
+</div>
+
+
+
+
+

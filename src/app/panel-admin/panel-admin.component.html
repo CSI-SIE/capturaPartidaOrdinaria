@@ -1,0 +1,82 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="column" fxLayoutAlign="center end">
+    <!--<button [routerLink]="['/nueva']" type="button"  mat-raised-button color="warn" >
+      <span class="material-icons">
+        add
+        </span> Nueva solicitud
+    </button>-->
+
+  </mat-toolbar-row>
+
+  </mat-toolbar>
+  <div class="container" fxLayout="column">
+
+    <h1 fxLayoutAlign="center center">{{title}}</h1>
+
+    <div fxFlex fxLayout="column">
+      <form [formGroup]="formularioReporte" (ngSubmit)="consultaPartidasOrdinariasPorDepartamento()">
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1.1rem grid">
+          <mat-form-field fxFlex="50" [floatLabel]="'auto'">
+            <mat-label>Periodo</mat-label>
+            <mat-select [(value)]="periodoDefault" formControlName="Periodo" [required]="esRequerido('Periodo')">
+              <mat-option *ngFor="let periodo of catalogoPeriodo" [value]="periodo.idPeriodo">{{ periodo.periodo }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="efSolicitudReporte.Periodo">{{ efSolicitudReporte.Periodo }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50" [floatLabel]="'auto'">
+            <mat-label>Departamento</mat-label>
+            <mat-select formControlName="Departamento" [required]="esRequerido('Departamento')">
+              <mat-option *ngFor="let departamento of catalogoDepartamentos" [value]="departamento.iddepartamento">{{ departamento.nombre }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="efSolicitudReporte.Departamento">{{ efSolicitudReporte.Departamento }}</mat-error>
+          </mat-form-field>
+
+
+        </div>
+
+          <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="space-around center">
+            <button [disabled]="formularioReporte.invalid"
+            (click)="disteClick()"
+            mat-flat-button color="primary">
+            <span class="material-icons">search</span>
+            Buscar</button>
+        </div>
+
+      </form>
+    </div>
+    <br><br>
+    <div fxLayout="column">
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30">
+        <label>Selecciona la partida que quieres aplicar</label>
+        <!--<label *ngIf="clickBusqueda"><strong>Semestre: </strong>{{resultadosPartidasOrdinarias[0].semestre}}</label>
+        <label *ngIf="clickBusqueda"><strong>Departamento: </strong>{{resultadosPartidasOrdinarias[0].nombreDepartamento}}</label>-->
+      </div>
+
+    <!-- Inicia tabla para mostrar los datos -->
+    <tabla-dinamica-admin
+    [resultadosPartidasOrdinarias]="resultadosPartidasOrdinarias"
+    [pageSizeOptions]="pageSizeOptions"
+    [displayedColumns]="displayedColumnsGrupo"
+    [tamanoTabla]="tamanoTabla" >
+    </tabla-dinamica-admin>
+    <!-- Finaliza tabla -->
+    <div *ngIf="sinResultados && clickBusqueda" fxFlex fxLayout="column" fxLayoutAlign="center center">
+      <h2>Sin resultados</h2>
+    </div>
+
+    <div fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="center center">
+    <mat-spinner *ngIf="showSpinner"></mat-spinner>
+  </div>
+
+  <!--<orden-compra></orden-compra>-->
+
+  </div>
+  </div>

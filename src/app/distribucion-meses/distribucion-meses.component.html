@@ -1,0 +1,23 @@
+<!-- <p>{{data.valor.descripcion}}</p> -->
+
+
+<table mat-table [dataSource]="transactions" class="mat-elevation-z8">
+  <!-- Item Column -->
+  <ng-container matColumnDef="item">
+    <th mat-header-cell *matHeaderCellDef> Mes </th>
+    <td mat-cell *matCellDef="let transaction"> {{ transaction.item }} </td>
+    <td mat-footer-cell *matFooterCellDef> Total </td>
+  </ng-container>
+
+  <!-- Cost Column -->
+  <ng-container matColumnDef="cost">
+    <th mat-header-cell *matHeaderCellDef> Presupuestado </th>
+    <td mat-cell *matCellDef="let transaction"> {{ transaction.cost>0 ? (transaction.cost | currency) : '' }} </td>
+    <td mat-footer-cell *matFooterCellDef> {{ getTotalCost() | currency }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row  [mat-dialog-close]="row.cost" *matRowDef="let row; columns: displayedColumns;"></tr>
+  <!-- (click)="apocoSiTilin(row)" -->
+  <tr mat-footer-row class="text-center" *matFooterRowDef="displayedColumns"></tr>
+</table>

@@ -1,0 +1,80 @@
+<div class="container" fxLayout="column">
+
+    <!-- <h1 fxLayoutAlign="center center">{{title}}</h1> -->
+    <!-- <h2 fxLayoutAlign="center center">{{group.value}}</h2> -->
+
+    <div fxFlex fxLayout="column">
+      <form [formGroup]="formularioReporte" (ngSubmit)="consultaTodasPartidasOrdinarias()">
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1.1rem grid">
+          <!-- <mat-form-field fxFlex="50" [floatLabel]="'auto'">
+            <mat-label>Periodo</mat-label>
+            <mat-select [(value)]="periodoDefault" formControlName="Periodo" [required]="esRequerido('Periodo')">
+              <mat-option *ngFor="let periodo of catalogoPeriodo" [value]="periodo.idPeriodo">{{ periodo.periodo }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="efSolicitudReporte.Periodo">{{ efSolicitudReporte.Periodo }}</mat-error>
+          </mat-form-field> -->
+
+          <!-- <mat-form-field fxFlex="50" [floatLabel]="'auto'">
+            <mat-label>Departamento</mat-label>
+            <mat-select formControlName="Departamento" [required]="esRequerido('Departamento')">
+              <mat-option *ngFor="let departamento of catalogoDepartamentos" [value]="departamento.iddepartamento">{{ departamento.nombre }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="efSolicitudReporte.Departamento">{{ efSolicitudReporte.Departamento }}</mat-error>
+          </mat-form-field> -->
+
+        </div>
+
+          <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="space-around center">
+            <button [disabled]="formularioReporte.invalid"
+            (click)="disteClick()"
+            mat-flat-button color="primary">
+            <span class="material-icons">search</span>
+            Buscar</button>
+        </div> -->
+
+      </form>
+    </div>
+    <div fxLayout="column">
+
+      <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="30">
+        <label>Selecciona la partida que quieres aplicar</label>
+
+      </div> -->
+
+      <!-- <mat-button-toggle-group fxLayoutAlign="space-between center" #group="matButtonToggleGroup">
+        <mat-button-toggle fxFlex value="Agosto" aria-label="Text align left">
+          <mat-icon>arrow_back</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle fxFlex="80" value="Septiembre" aria-label="Text align center">
+          Mes actual
+        </mat-button-toggle>
+        <mat-button-toggle fxFlex value="Octubre" aria-label="Text align right">
+          <mat-icon>arrow_forward</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group> -->
+
+      <br>
+      <!-- <tabla-dinamica-mes *ngIf="!sinResultados && clickBusqueda" -->
+      <tabla-dinamica-mes
+
+      [resultadosPartidasOrdinarias]="resultadosPartidasOrdinarias"
+      [pageSizeOptions]="pageSizeOptions"
+      [displayedColumns]="displayedColumnsGrupo"
+      [tamanoTabla]="tamanoTabla" >
+      </tabla-dinamica-mes>
+
+    <div *ngIf="sinResultados && clickBusqueda" fxFlex fxLayout="column" fxLayoutAlign="center center">
+      <h2>Sin resultados</h2>
+    </div>
+
+    <div fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="center center">
+    <mat-spinner *ngIf="showSpinner"></mat-spinner>
+    </div>
+  </div>
+  </div>

@@ -1,0 +1,162 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="column" fxLayoutAlign="center start">
+    <!--<button [routerLink]="['/nueva']" type="button"  mat-raised-button color="warn" >
+      <span class="material-icons">
+        add
+        </span> Nueva solicitud
+
+    </button>-->
+    Orden de compra
+  </mat-toolbar-row>
+
+  </mat-toolbar>
+
+
+  <div fxLayout="column">
+  <!--<div fxLayout="row" fxLayoutAlign="center center">
+
+    <mat-form-field class="anchoGrande" appearance="outline">
+      <mat-label>Descripción:</mat-label>
+      <textarea  matInput formControlName="Concepto" placeholder=""></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="anchoPequeno" appearance="outline">
+      <mat-label>Cantidad:</mat-label>
+      <input  matInput formControlName="Cantidad" placeholder="" value="">
+    </mat-form-field>
+
+    <mat-form-field class="anchoPequeno" appearance="outline">
+      <mat-label>Unidad:</mat-label>
+      <input  matInput formControlName="Unidad" placeholder="" value="">
+    </mat-form-field>
+</div>-->
+
+
+
+
+<div class="container">
+  <form [formGroup]="formNuevaSolicitud">
+    <mat-card>
+    <div fxLayout="row">
+
+      <br>
+
+      <div fxFlex fxLayout="column">
+
+        <div fxLayout="column" fxLayoutAlign="center end" >
+          <mat-form-field appearance="outline">
+            <mat-label>Folio:</mat-label>
+            <input matInput formControlName="Folio" placeholder="" value="">
+          </mat-form-field>
+
+          <!--<mat-form-field appearance="outline">
+            <mat-label>Fecha</mat-label>
+            <input matInput formControlName="Fecha" [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>-->
+
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha:</mat-label>
+            <input matInput formControlName="Fecha" placeholder="" value="">
+          </mat-form-field>
+        </div>
+        <div  fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10">
+          <!--<mat-form-field fxFlex="70" appearance="outline">
+            <mat-label>Proveedor:</mat-label>
+            <input matInput formControlName="Proveedor" placeholder="Ingresa un proveedor" value="">
+          </mat-form-field>-->
+
+          <mat-form-field fxFlex="70" appearance="outline">
+            <mat-label>Proveedor</mat-label>
+            <input type="text"
+                   placeholder="Selecciona un proveedor"
+                   matInput
+                   [formControl]="myControl"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <button (click)="addDetalleConcepto()" type="button"  mat-icon-button matTooltip="Agregar nuevo proveedor" color="primary">
+            <span class="material-icons">
+              person_add
+            </span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <br>
+    <div formArrayName="detalleConceptos">
+      <mat-card>
+        <div fxLayoutAlign="end center">
+          <button (click)="addDetalleConcepto()" type="button" matTooltip="Agregar partida"  mat-flat-button color="primary">
+            <span class="material-icons">
+            add
+            </span>
+          </button>
+        </div>
+        <div *ngFor="let detalle of detalles.controls; let i=index" [formGroupName]="i">
+          <div fxLayout="row" fxLayoutGap="20px">
+            <div flexLayout="row" fxLayoutGap="10px" fxFlex="100" fxLayoutAlign="start center">
+              <label>{{i+1}}</label>
+              <mat-form-field fxFlex="60" [floatLabel]="'auto'" appearance="outline">
+                <mat-label>Descripción:</mat-label>
+                <input formControlName="ConceptoPorDetalle" matInput placeholder="Detalle del concepto">
+              </mat-form-field>
+
+              <mat-form-field fxFlex="20" [floatLabel]="'auto'" appearance="outline">
+                <mat-label>Cantidad:</mat-label>
+                <input type="number" formControlName="Cantidad" matInput placeholder="Cantidad" >
+              </mat-form-field>
+
+              <mat-form-field fxFlex="20" [floatLabel]="'auto'" appearance="outline">
+                <mat-label>Unidad:</mat-label>
+                <input type="number" formControlName="Monto" matInput placeholder="Unidad" (click)="sumar()" (keyup)="sumar()">
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="deleteDetalleConcepto(i)"><mat-icon>close</mat-icon></button>
+              </mat-form-field>
+            </div>
+            <!--<div fxLayout="row" fxLayoutGap="5px" fxFlex="20" fxLayoutAlign="space-around center" fxLayout.xs="column">
+
+                <button (click)="deleteDetalleConcepto(i)" type="button" mat-flat-button color="primary">x</button>
+                <br>
+            </div>-->
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="end center">
+          <mat-card>
+            <label><strong>Total: </strong> $ {{ sumaMontosPorConcepto }}</label>
+          </mat-card>
+        </div>
+      </mat-card>
+      <br>
+
+
+    </div>
+
+
+
+    <br><br>
+    <div  fxLayout="column">
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" fxLayout.xs="column">
+        <button [routerLink]="['/inicio']" *ngIf="GuardadoCorrectamente" type="button" mat-flat-button color="primary">Salir</button>
+        <button [routerLink]="['/inicio']" *ngIf="!GuardadoCorrectamente" type="submit" mat-stroked-button color="primary">Cancelar</button>
+        <button [disabled]="formNuevaSolicitud.invalid || GuardadoCorrectamente" type="button" (click)="onSubmit()" mat-flat-button color="primary">
+          <span class="material-icons">save</span>
+          Guardar
+        </button>
+
+        <br>
+      </div>
+    </div>
+  </form>
+</div>
+
+</div>

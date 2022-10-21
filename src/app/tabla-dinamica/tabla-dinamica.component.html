@@ -1,0 +1,94 @@
+<div fxFlex fxLayout="column" class="mat-elevation-z8">
+  <!--<mat-form-field>
+    <input (keyup)="aplicarFiltro($event)" matInput placeholder="Búsqueda avanzada...">
+  </mat-form-field>-->
+
+  <mat-form-field>
+    <input (keyup)="aplicarFiltro($event)" matInput placeholder="Búsqueda avanzada...">
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" >
+
+    <ng-container [matColumnDef]="columna" *ngFor="let columna of displayedColumns.columnas.paraMostrar; ">
+        <th  mat-header-cell *matHeaderCellDef>
+            {{ displayedColumns.columnas[columna][0] }}</th>
+
+      <td  mat-cell *matCellDef="let element let i = index">
+        <label>
+
+          <ng-container *ngIf="columna!='nombreDepartamento' && columna!='descripcion' && columna!='justificacion' && columna!='unidades' && columna!='precio' && columna!='mes01' && columna!='mes02' && columna!='mes03' && columna!='mes04' && columna!='mes05' && columna!='mes06' ">
+            {{ element[columna]}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'nombreDepartamento'">
+            <!--{{ element[columna] | slice:0:50 }}  {{ element[columna]?.length>49 ? '...' : '' }}-->
+            {{ element[columna] }}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'descripcion'">
+            {{ element[columna] | slice:0:50 }}  {{ element[columna]?.length>49 ? '...' : '' }}
+          </ng-container>
+
+          <!--<ng-container *ngIf="columna == 'Justificacion'">
+            {{ element[columna] }}
+          </ng-container>-->
+
+          <ng-container *ngIf="columna == 'unidades'">
+            {{ element[columna] | number}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'precio'">
+            {{element[columna] | currency}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'total'">
+            {{element[columna] | currency}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'mes01' && element[columna]>0">
+            {{ element[columna] | currency}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'mes02' && element[columna]>0">
+            {{ element[columna] | currency}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'mes03' && element[columna]>0">
+            {{ element[columna] | currency}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'mes04' && element[columna]>0">
+            {{ element[columna] | currency}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'mes05' && element[columna]>0">
+            {{ element[columna] | currency}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'mes06' && element[columna]>0">
+            {{ element[columna] | currency}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'ver'" >
+            <a  matTooltip="Ver más">
+              <span
+              (click)="desplegarDialogo(element)"
+              class="material-icons">
+                search
+                </span>
+            </a>
+          </ng-container>
+
+
+        </label>
+
+      </td>
+
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns.columnas.paraMostrar"></tr>
+    <tr mat-row  *matRowDef="let row; columns: displayedColumns.columnas.paraMostrar;"></tr>
+  </table>
+
+  <mat-paginator class="mat-elevation-z8" [pageSizeOptions]="pageSizeOptions" #paginador></mat-paginator>
+</div>

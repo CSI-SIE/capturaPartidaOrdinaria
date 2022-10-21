@@ -1,1 +1,106 @@
-<p>inicio works!</p>
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="column" fxLayoutAlign="center start">
+    <!--<button [routerLink]="['/nueva']" type="button"  mat-raised-button color="warn" >
+      <span class="material-icons">
+        add
+        </span> Nueva solicitud
+    </button>-->
+    Solicitud de partidas ordinarias
+
+  </mat-toolbar-row>
+
+  </mat-toolbar>
+
+  <div *ngIf="quePermisosTiene">
+      <div *ngIf="quePermisosTiene[0].error == 4 || quePermisosTiene[0].error == 0">
+          <!-- Tiene permisos para ver partidas ya sea desde que tenga permisos desde el presupuesto o tiene permiso de preliberación -->
+          <panel-mes
+          [idPeriodo]="idPeriodo"
+          [accionConsulta]="accionConsulta"
+          ></panel-mes>
+
+
+      </div>
+
+      <div *ngIf="quePermisosTiene[0].error == 1 || quePermisosTiene[0].error == 2 || quePermisosTiene[0].error == 3">
+        <!-- Mensaje que aparece si el sistema no va a mostrar ninguna Partida del Presupuesto para que la puedan solicitar -->
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <br>
+          <br>
+          <br>
+            <span class="material-icons">
+             warning
+            </span>
+            <br>
+          <h3> {{ quePermisosTiene[0].mensaje }}</h3>
+        </div>
+      </div>
+  </div>
+
+
+
+
+
+  <!-- <panel-admin></panel-admin> -->
+  <!-- <div class="container" fxLayout="column">
+
+    <h1 fxLayoutAlign="center center">{{title}}</h1>
+
+    <div fxFlex fxLayout="column">
+      <form [formGroup]="formularioReporte" (ngSubmit)="consultaPartidasOrdinariasPorDepartamento()">
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1.1rem grid">
+          <mat-form-field fxFlex="50" [floatLabel]="'auto'">
+            <mat-label>Periodo</mat-label>
+            <mat-select [(value)]="periodoDefault" formControlName="Periodo" [required]="esRequerido('Periodo')">
+              <mat-option *ngFor="let periodo of catalogoPeriodo" [value]="periodo.idPeriodo">{{ periodo.periodo }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="efSolicitudReporte.Periodo">{{ efSolicitudReporte.Periodo }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50" [floatLabel]="'auto'">
+            <mat-label>Departamento</mat-label>
+            <mat-select formControlName="Departamento" [required]="esRequerido('Departamento')">
+              <mat-option *ngFor="let departamento of catalogoDepartamentos" [value]="departamento.iddepartamento">{{ departamento.nombre }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="efSolicitudReporte.Departamento">{{ efSolicitudReporte.Departamento }}</mat-error>
+          </mat-form-field>
+
+
+        </div>
+
+          <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="space-around center">
+            <button [disabled]="formularioReporte.invalid"
+            (click)="disteClick()"
+            mat-flat-button color="primary">
+            <span class="material-icons">search</span>
+            Buscar</button>
+        </div>
+
+      </form>
+    </div>
+    <br><br>
+    <div fxLayout="column">
+
+      <tabla-dinamica
+      [resultadosPartidasOrdinarias]="resultadosPartidasOrdinarias"
+      [pageSizeOptions]="pageSizeOptions"
+      [displayedColumns]="displayedColumnsGrupo"
+      [tamanoTabla]="tamanoTabla" >
+      </tabla-dinamica>
+
+      <div *ngIf="sinResultados && clickBusqueda" fxFlex fxLayout="column" fxLayoutAlign="center center">
+        <h2>Sin resultados</h2>
+      </div>
+
+      <div fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="center center">
+        <mat-spinner *ngIf="showSpinner"></mat-spinner>
+      </div>
+
+    </div>
+  </div> -->

@@ -1,0 +1,52 @@
+.container{
+  padding-right: 20.5em;
+  padding-left: 20.5em;
+  padding-top: 1.5em;
+  padding-bottom: 2.5em;
+  background-color: #F6F7F9;
+}
+
+.anchoPequeno{
+  min-width: 150px;
+  max-width: 200px;
+  width: 100%;
+}
+
+.anchoMediano{
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.anchoGrande{
+  min-width: 150px;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.card {
+  min-width: 160px;
+}
+
+.file-input {
+  display: none;
+}
+
+.example-selected-value {
+  margin: 15px 0;
+}
+
+
+
+.right-align {
+  text-align: right;
+}
+
+input.right-align::-webkit-outer-spin-button,
+input.right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.right-align {
+  -moz-appearance: textfield;
+}

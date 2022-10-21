@@ -3,7 +3,7 @@ import { Observable, observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment'
 
-const APIURL = '/api/...................php'
+const APIURL = '/api/administrativo/Partidas_Ordinarias.php'
 
 export class ServicioBase {
   constructor(

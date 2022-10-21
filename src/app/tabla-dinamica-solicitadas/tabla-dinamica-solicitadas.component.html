@@ -1,0 +1,80 @@
+<div fxFlex fxLayout="column" class="mat-elevation-z8">
+  <!--<mat-form-field>
+    <input (keyup)="aplicarFiltro($event)" matInput placeholder="Búsqueda avanzada...">
+  </mat-form-field>-->
+
+  <!-- <mat-form-field>
+    <input (keyup)="aplicarFiltro($event)" matInput placeholder="Búsqueda avanzada...">
+  </mat-form-field> -->
+
+  <table mat-table [dataSource]="dataSource" >
+
+    <ng-container [matColumnDef]="columna" *ngFor="let columna of displayedColumns.columnas.paraMostrar; ">
+        <th  mat-header-cell *matHeaderCellDef >
+            {{ displayedColumns.columnas[columna][0] }}</th>
+
+      <td  mat-cell *matCellDef="let element let i = index">
+        <label>
+
+          <ng-container *ngIf="columna!='importeSolicitado' && columna!='autorizadoJefe' && columna!='autorizadoTesoreria'">
+            {{ element[columna]}}
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'importeSolicitado'">
+            {{element[columna] | currency }}
+          </ng-container>
+
+          <!-- Estaba comentado  -->
+                              <!-- <ng-container *ngIf="columna == 'aplicacionPartial'">
+                                <span *ngIf="element[columna] == 1">Si</span>
+                                <span *ngIf="element[columna] == 0">No</span>
+                              </ng-container> -->
+          <!-- Estaba comentado  -->
+
+          <ng-container *ngIf="columna == 'autorizadoJefe'" >
+            <span *ngIf="element[columna] == 1" class="material-icons green-icon" matTooltip="Aprobado">
+              thumb_up
+            </span>
+            <span *ngIf="element[columna] == 2" class="material-icons red-icon" matTooltip="Rechazado">
+              thumb_down
+            </span>
+            <span *ngIf="element[columna] == 0" class="material-icons blue-icon" matTooltip="En proceso de revisión">
+              hourglass_top
+            </span>
+          </ng-container>
+
+          <ng-container *ngIf="columna == 'autorizadoTesoreria'" >
+            <span *ngIf="element[columna] == 1" class="material-icons green-icon" matTooltip="Aprobado">
+              thumb_up
+            </span>
+            <span *ngIf="element[columna] == 2" class="material-icons red-icon" matTooltip="Rechazado">
+              thumb_down
+            </span>
+            <span *ngIf="element[columna] == 0" class="material-icons blue-icon" matTooltip="En proceso de revisión">
+              hourglass_top
+            </span>
+          </ng-container>
+
+          <!-- <ng-container *ngIf="columna == 'solicitar'" >
+
+            <button
+            mat-icon-button
+            (click)="solicitar(element)"
+            color="primary">
+              <mat-icon>paid</mat-icon>
+            </button>
+          </ng-container> -->
+
+
+        </label>
+
+      </td>
+
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns.columnas.paraMostrar"></tr>
+    <tr mat-row  *matRowDef="let row; columns: displayedColumns.columnas.paraMostrar;"></tr>
+  </table>
+
+  <mat-paginator class="mat-elevation-z7" [pageSizeOptions]="pageSizeOptions" #paginador></mat-paginator>
+</div>

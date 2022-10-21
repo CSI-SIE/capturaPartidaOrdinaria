@@ -1,0 +1,257 @@
+<mat-toolbar color="primary">
+  Autorización de partida presupuestal ordinaria
+
+</mat-toolbar>
+<div class="container">
+  <div fxLayout="row">
+
+        <div fxLayout="column" fxFlex="100">
+    <!-------------------------------------------------------------------------------------------------------->
+          <form [formGroup]="formNuevaSolicitud">
+
+          <!--Contenedor interno completo-->
+          <div fxLayout="column" fxLayoutGap="20px" fxLayout.xs="column">
+
+            <!-- <mat-card class="card">
+              <p><strong>Folio: </strong>{{Folio}}</p>
+            </mat-card> -->
+
+            <!-- <mat-card class="card">
+              <p><strong>Mes presupuestado: </strong><label *ngIf="!mesesActivado">{{MesPresupuestado}}</label></p>
+              <div *ngIf="mesesActivado" fxLayout="row" fxLayout.xs="column" fxLayoutGap="1.1rem grid">
+                <mat-form-field fxFlex="50" [floatLabel]="'auto'">
+                  <mat-label>Selecciona un mes</mat-label>
+                  <mat-select [value]="mesDefault" formControlName="mes" [required]="esRequeridoCompraGeneral('Mes')">
+                    <mat-option *ngFor="let mes of meses" [value]="mes.idMes">{{ mes.nombreMes }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <mat-slide-toggle (change)="onChange($event)">Solicitar otro mes</mat-slide-toggle>
+            </mat-card> -->
+
+            <mat-card class="card">
+              <p><strong>Departamento: </strong>{{Departamento}}</p>
+
+              <!-- <p><strong>Cuenta: </strong>{{Cuenta}}</p> -->
+
+              <!-- <p><strong>Persona que solicita: </strong>{{PersonaSolicita}}</p> -->
+
+            </mat-card>
+
+            <mat-card class="card">
+              <p><strong>Descripción completa del artículo o servicio: </strong>{{Descripcion}}​</p>
+              <p><strong>Justificación: </strong>{{Justificacion}}​</p>
+            </mat-card>
+
+
+            <mat-card class="card">
+              <!--Columna de la izquierda-->
+              <div fxLayout="column" fxLayoutAlign="center start">
+
+                <!-- <mat-form-field class="anchoMediano" appearance="outline">
+                  <mat-label>Descripción del articulo o servicio:</mat-label>
+                  <textarea  matInput formControlName="Descripcion" placeholder="Descripción completa del articulo o servicio"></textarea>
+                </mat-form-field> -->
+                <label><strong>*Proveedor:</strong></label>
+                <mat-form-field class="anchoMediano" appearance="outline">
+                  <input matInput formControlName="Proveedor" placeholder="Ingrese el nombre del proveedor" value="">
+                </mat-form-field>
+
+                <!-- <mat-form-field class="anchoMediano" appearance="outline">
+                  <mat-label>Cuenta:</mat-label>
+                  <input  matInput formControlName="Cuenta" placeholder="Ingresa una cuenta" value="">
+                </mat-form-field> -->
+              </div>
+            </mat-card>
+
+            <mat-card class="card">
+
+                <!--Columna de la derecha-->
+                <div fxLayout="column" >
+                  <div fxLayout="column" >
+
+                  <div fxLayout="column" fxLayoutAlign="center start">
+                    <!-- <mat-form-field class="anchoPequeno" appearance="outline">
+                      <mat-label>Costo total presupuestado con IVA:</mat-label>
+                      <input matInput type="number" formControlName="CostoPresupuestado" placeholder="0" class="right-align">
+                      <span matPrefix>$&nbsp;</span>
+                    </mat-form-field> -->
+
+                    <label><strong>Total presupuestado con IVA: </strong> {{ Total | currency}} </label>
+                    <label><strong>Saldo a favor: </strong> {{ SaldoaFavor | currency}}</label>
+                    <br>
+                    <label><strong>*¿Cuánto va a solicitar?</strong></label>
+
+                    <div fxLayoutAlign="row">
+
+                      <mat-form-field class="anchoPequeno" appearance="outline">
+
+                        <input matInput type="number" formControlName="MontoSolicitado"  placeholder="0" class="right-align" (change)="onChangeEvent($event)">
+
+                        <!-- <input matInput type="number" formControlName="MontoSolicitado"  placeholder="0" class="right-align" (click)="onKeyUp()" (keyup)="onKeyUp()"> -->
+                        <span matPrefix>$&nbsp;</span>
+
+                        <button *ngIf="formNuevaSolicitud.value['MontoSolicitado']" matSuffix mat-icon-button (click)="limpiarMontoSolicitado()"  type="button" > <mat-icon>close</mat-icon></button>
+
+                      </mat-form-field>
+
+                      <button *ngIf="EsPartidaParcial == 0" type="button" mat-button color="primary" (click)="utilizarTotal()">
+                        <mat-icon>done</mat-icon>
+                        Usar el total
+                      </button>
+                    </div>
+                    <button type="button" mat-button color="primary" (click)="detalle()">
+                      <mat-icon>info</mat-icon>
+                      Distribución esperada en el semestre
+                    </button>
+                    <!-- <mat-form-field  class="anchoPequeno" appearance="outline">
+                      <mat-label>Diferencia:</mat-label>
+                      <input matInput type="number" formControlName="Diferencia" placeholder="0" class="right-align" (click)="onKeyUp()" (keyup)="onKeyUp()">
+                      <span matPrefix>$&nbsp;</span>
+                    </mat-form-field> -->
+
+
+                    <!-- <p><mat-slide-toggle (change)="cambiarCostos($event)">Solicitar otras cantidades</mat-slide-toggle></p>
+                    <mat-card-subtitle *ngIf="costosActivado" class="anchoPequeno"><strong>Importante: </strong>Al superar el costo presupuestado, se tendrá que solicitar una autorización.</mat-card-subtitle> -->
+                  </div>
+
+                  </div>
+
+                </div>
+            </mat-card>
+
+
+            <mat-card class="card">
+
+              <!--Columna de la derecha-->
+              <div fxLayout="column" >
+                <div fxLayout="column" >
+
+                <div fxLayout="column" fxLayoutAlign="center start">
+
+                  <p *ngIf="EsPartidaParcial == 0">Información: <i>Esta es una solicitud de <strong>partida ordinaria única.</strong></i></p>
+                  <p *ngIf="EsPartidaParcial == 1">Información: <i>Esta es una solicitud de <strong>partida ordinaria por parcialidades.</strong></i></p>
+
+                  <p>Partida ordinaria única: <i>Solo aplica una vez en el periodo que fue presupuestada. Puede solicitar el total o una parte de lo presupuestado.</i></p>
+                  <p>Partida ordinaria por parcialidades: <i>El total fue presupuestado y dividido en diferentes meses.</i></p>
+
+
+
+                </div>
+
+                </div>
+
+              </div>
+          </mat-card>
+
+
+            <!-- <mat-card class="card">
+              <div fxLayout="column" >
+                <div fxLayout="column" > -->
+
+
+                    <!-- <mat-radio-group
+                    fxLayout="row"
+                    fxLayoutAlign="space-around center"
+                    fxLayout.xs="column"
+                    fxLayoutGap.xs="10px"
+                    fxLayoutAlign.xs="start"
+                    [(ngModel)]="partidaExtraordinariaSeleccionada" [ngModelOptions]="{standalone: true}"
+                    >
+                    <label>Aplicaciones parciales</label>
+
+                    <mat-radio-button [disabled]="GuardadoCorrectamente" *ngFor="let opcion of tipoPartidaExtraordinaria" [value]="opcion">
+                      {{opcion}}
+                    </mat-radio-button>
+                  </mat-radio-group> -->
+
+                <!-- </div>
+
+              </div>
+          </mat-card> -->
+
+          <mat-card class="card">
+            <div fxLayout="column" >
+              <div fxLayout="column" >
+
+                <div fxLayout="column" fxLayoutAlign="center start">
+                  <mat-form-field class="anchoGrande" appearance="outline">
+                    <mat-label>Comentarios</mat-label>
+                    <textarea  matInput formControlName="Comentarios" placeholder="Puede ingresar algún comentario"></textarea>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+            </div>
+          </mat-card>
+
+
+
+            <!-- <mat-card class="card">
+
+              <h2>Adjuntar archivos <span class="material-icons">attach_file</span></h2>
+              <mat-card-subtitle>(Opcional) Puede adjuntar cotización o archivos a su solicitud.</mat-card-subtitle>
+              <form [formGroup]="formArchivos">
+                <div fxLayout="column">
+                  <div fxLayout="row" fxLayoutGap="20px" fxLayout.md="column" fxLayout.sm="column" fxLayout.xl="column" fxLayout.xs="column" fxLayoutGap.md="10px">
+                    <button type="button"  mat-flat-button (click)="Archivo.click()" color="primary">Seleccionar... </button>
+                    <button type="button" (click)="subirArchivo()" [disabled]="!NombreArchivo" mat-flat-button color="primary"><span class="material-icons">
+                      cloud_upload
+                      </span> Subir</button>
+                  </div>
+                  <input #Archivo type="file" hidden formControlName="fileCotizacion" (change)="clickeaste()">
+
+                  <p *ngIf="NombreArchivo">&nbsp;&nbsp;&nbsp;{{NombreArchivo}}</p>
+
+                  <br>
+                </div>
+              </form>
+            </mat-card> -->
+
+
+
+            <!-- <mat-card class="card">
+              <h1>Anexo para control de ejecuciones de gastos</h1>
+              <p><strong>Área: </strong> ????</p>
+              <p><strong>Departamento: </strong>Servicios escolares</p>
+              <p><strong>No. de Partida ordinaria: </strong>5650</p>
+              <p><strong>Importe autorizado: </strong>$ 1000</p>
+
+                <p>Vo. Bo. vicerrector y/o rector ______________________________________</p>
+
+            </mat-card> -->
+
+
+
+          <br>
+
+          </div>
+
+            <br>
+            <div  fxLayout="column">
+              <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" fxLayout.xs="column">
+                <button [routerLink]="['/inicio']" *ngIf="!GuardadoCorrectamente" type="submit" mat-stroked-button color="primary">Cancelar</button>
+                <button [disabled]="formNuevaSolicitud.invalid || GuardadoCorrectamente" type="button" (click)="onSubmit()" mat-flat-button color="primary">
+                  <span class="material-icons">save</span>
+                  Guardar
+                </button>
+
+                <br>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
